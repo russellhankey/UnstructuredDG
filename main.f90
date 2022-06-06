@@ -34,7 +34,7 @@ PROGRAM main
 	write(9001,*) "Even though this file is intended to prevent a residnorm NAN,"
 	write(9001,*) "it can still be used to record other useful measurements as well."
 	write(9001,*)
-	write(9001,*) "       iter                        dt                         t"
+	write(9001,*) "       iter                   dt                         t"
 
 ! specify final time and initialize local variables
 	  ft=60
