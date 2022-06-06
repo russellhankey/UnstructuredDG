@@ -50,7 +50,7 @@ PROGRAM main
 	  !do while (checkstat/=1)
 	       iter=iter+1
 		   if(flag.eq.0) call calc_cfl
-9003	if (t+dt .gt. ft) dt=ft-t
+		if (t+dt .gt. ft) dt=ft-t
 		t=t+dt
 		!kcount=kcount+1
 
