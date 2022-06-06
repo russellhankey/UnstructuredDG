@@ -46,6 +46,13 @@ SUBROUTINE initialize
       ALLOCATE (rightxy(1:8,1:NCELL))
       ALLOCATE (rightyy(1:8,1:NCELL))
 
+	  allocate (o0(1:8,1:NCELL))
+	  allocate (ox(1:8,1:NCELL))
+	  allocate (oy(1:8,1:NCELL))
+	  allocate (oxx(1:8,1:NCELL))
+	  allocate (oxy(1:8,1:NCELL))
+	  allocate (oyy(1:8,1:NCELL))
+
 	  allocate(gp(1:3))
 	  allocate(w(1:3))
 	  allocate(jacobvertex(1:4,1:NCELL))

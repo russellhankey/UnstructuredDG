@@ -44,13 +44,27 @@ PROGRAM main
 	  iter = 0
 	  flag = 0
 	  call CPU_TIME(timestart)
-	  
+
+
+	  do ic=1,NCELL
+		do k=1,8
+		   o0(k,ic)=u0(k,ic)
+		   ox(k,ic)=ux(k,ic)
+		   oy(k,ic)=uy(k,ic)
+		   oxx(k,ic)=uxx(k,ic)
+		   oxy(k,ic)=uxy(k,ic)
+		   oyy(k,ic)=uyy(k,ic)
+		end do
+	  end do
+
+
+!	  dt = ndt
 ! loop of iterations
 	  do while(t .lt. ft)
 	  !do while (checkstat/=1)
 	       iter=iter+1
 		   if(flag.eq.0) call calc_cfl
-9003	if (t+dt .gt. ft) dt=ft-t
+		if (t+dt .gt. ft) dt=ft-t
 		t=t+dt
 		!kcount=kcount+1
 
@@ -152,19 +166,20 @@ PROGRAM main
 
 
 		if(flag.eq.0 .and. residnorm.ne.residnorm) then
-			t = t-dt
+			t = 0
 			dt = ndt
+			iter = 0
 			write(*,*)"dt switched to defined dt:",ndt
 			flag = 1
 
 			do ic=1,NCELL
 				do k=1,8
-				   u0(k,ic)=w10(k,ic)
-				   ux(k,ic)=w1x(k,ic)
-				   uy(k,ic)=w1y(k,ic)
-				   uxx(k,ic)=w1xx(k,ic)
-				   uxy(k,ic)=w1xy(k,ic)
-				   uyy(k,ic)=w1yy(k,ic)
+				   u0(k,ic)=o0(k,ic)
+				   ux(k,ic)=ox(k,ic)
+				   uy(k,ic)=oy(k,ic)
+				   uxx(k,ic)=oxx(k,ic)
+				   uxy(k,ic)=oxy(k,ic)
+				   uyy(k,ic)=oyy(k,ic)
 				end do
 			  end do
 

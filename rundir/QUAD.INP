@@ -1,8 +1,8 @@
 input file will contain primarily tuning parameters for running quadrigen
 --------- FILE NAMES ----------------
-3_squares.cel        NAMECEL
-3_squares.vrt        NAMEVRT
-3_squares.bnd        NAMEBND2D
+magneticfield.cel        NAMECEL
+magneticfield.vrt        NAMEVRT
+magneticfield.bnd        NAMEBND2D
 ---------- Polynomial related ----------
 3              N_ORD
 ---output refinement level
