@@ -37,7 +37,7 @@ PROGRAM main
 	write(9001,*) "       iter                        dt                         t"
 
 ! specify final time and initialize local variables
-	  ft=40
+	  ft=60
 	  t=0
 	  kcount=0
 	  checkstat = 0
