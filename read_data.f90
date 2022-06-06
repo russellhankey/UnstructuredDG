@@ -22,7 +22,7 @@ SUBROUTINE READ_INPUT
           READ(30,*)	
           READ(30,*) CFL	
           READ(30,*)	
-          READ(30,*) DT
+          READ(30,*) NDT
 		  READ(30,*)
 		  READ(30,*)	restart
           READ(30,*) NAMERESTART	
