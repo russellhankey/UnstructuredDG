@@ -1,8 +1,8 @@
 input file will contain primarily tuning parameters for running quadrigen
 --------- FILE NAMES ----------------
-3_squares.cel        NAMECEL
-3_squares.vrt        NAMEVRT
-3_squares.bnd        NAMEBND2D
+euler.cel        NAMECEL
+euler.vrt        NAMEVRT
+euler.bnd        NAMEBND2D
 ---------- Polynomial related ----------
 3              N_ORD
 ---output refinement level
@@ -15,7 +15,7 @@ input file will contain primarily tuning parameters for running quadrigen
 ---MAXITER-------
 100000           MAXITER
 ---CFL NUMBER FOR FLOW CALCULATION-------
-0.25         CFL
+0.00002         CFL
 ----DT-------
 1e-4      DT
 ---restart option -----------

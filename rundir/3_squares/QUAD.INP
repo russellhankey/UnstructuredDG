@@ -15,7 +15,7 @@ input file will contain primarily tuning parameters for running quadrigen
 ---MAXITER-------
 100000           MAXITER
 ---CFL NUMBER FOR FLOW CALCULATION-------
-0.25         CFL
+0.00002         CFL
 ----DT-------
 1e-4      DT
 ---restart option -----------

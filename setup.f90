@@ -17,7 +17,7 @@ MODULE setup
 	  double precision	:: rinf,pinf,uinf,vinf
 
       double precision,dimension(:,:,:,:),allocatable :: etiny,imres,imresold
-      double precision :: gama,minl,ft,dt
+      double precision :: gama,minl,ft,dt,ndt
       double precision,dimension(:,:),allocatable :: u0,ux,uy
       double precision,dimension(:,:),allocatable :: uxx,uxy,uyy
       double precision,dimension (:,:),allocatable :: w10,w1x,w1y

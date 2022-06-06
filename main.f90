@@ -4,7 +4,7 @@ PROGRAM main
       IMPLICIT NONE
       INCLUDE 'MESH2D.INC'
 
-      INTEGER :: i,j,k,ic,checkstat
+      INTEGER :: i,j,k,ic,checkstat,flag
 	  double precision :: t,t2,residnorm
 	  double precision :: proctime,timestart,timestop 
 
@@ -42,14 +42,15 @@ PROGRAM main
 	  kcount=0
 	  checkstat = 0
 	  iter = 0
+	  flag = 0
 	  call CPU_TIME(timestart)
 	  
 ! loop of iterations
 	  do while(t .lt. ft)
 	  !do while (checkstat/=1)
 	       iter=iter+1
-	    CALL calc_cfl
-		if (t+dt .gt. ft) dt=ft-t
+		   if(flag.eq.0) call calc_cfl
+9003	if (t+dt .gt. ft) dt=ft-t
 		t=t+dt
 		!kcount=kcount+1
 
@@ -149,9 +150,30 @@ PROGRAM main
 		end do
 		residnorm=residnorm/(NCELL*5)
 
+
+		if(flag.eq.0 .and. residnorm.ne.residnorm) then
+			t = t-dt
+			dt = ndt
+			write(*,*)"dt switched to defined dt:",ndt
+			flag = 1
+
+			do ic=1,NCELL
+				do k=1,8
+				   u0(k,ic)=w10(k,ic)
+				   ux(k,ic)=w1x(k,ic)
+				   uy(k,ic)=w1y(k,ic)
+				   uxx(k,ic)=w1xx(k,ic)
+				   uxy(k,ic)=w1xy(k,ic)
+				   uyy(k,ic)=w1yy(k,ic)
+				end do
+			  end do
+
+			cycle
+		end if
+
 ! stop the program if something goes wrong
 		if(abs(residnorm) .le. 1.e-16) then!checkstat=1
-			write(*,*)"|Residnorm| less than 1E-16    (ie: Nothing is changing)"
+			write(*,*)"|Residnorm| less than 1E-16    (ie: Nothing seems to be changing)"
 			exit
 	    else if(iter .gt. MAXITER) then!checkstat=1
 			write(*,*)"Maximum allowed iterations"
