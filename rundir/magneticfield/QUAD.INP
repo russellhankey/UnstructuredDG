@@ -15,7 +15,7 @@ magneticfield.bnd        NAMEBND2D
 ---MAXITER-------
 100000           MAXITER
 ---CFL NUMBER FOR FLOW CALCULATION-------
-0.00002         CFL
+0.25         CFL
 ----DT-------
 1e-4      DT
 ---restart option -----------
