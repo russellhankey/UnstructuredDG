@@ -1,0 +1,218 @@
+SUBROUTINE CONNECTIVITY
+
+      IMPLICIT NONE
+      INCLUDE 'MESH2D.INC'
+      
+      INTEGER :: IC,IV,K,I,IC1,IC2,IV1,IV2,IVBASE
+      INTEGER :: IC1V1,IC1V2,IC1V3,IC1V4,IFF,ICC
+      INTEGER :: IC2V1,IC2V2,IC2V3,IC2V4,IVV1,IVV2
+      INTEGER :: IF,IFACE,IFACEOLD,IBOUN,NF
+      INTEGER :: IPROD11,IPROD12,IPROD21,IPROD22,L
+      INTEGER :: KSTABASE,KENDBASE
+
+      INTEGER,DIMENSION(:),ALLOCATABLE ::ICVFILL
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IDUMMY
+
+      DOUBLE PRECISION ::AFT
+      INTEGER :: VF1,VF2
+
+      !ALLOCATE(ICVSTA(MAXVRT+1))
+      !ALLOCATE(ICVERT(5*MAXCELL))
+      ALLOCATE(ICVFILL(MAXVRT))
+      ALLOCATE(IDUMMY(MAXVRT))
+
+      DO IV=1,NVERT
+         ICVFILL(IV)=0
+      END DO
+
+      DO IC=1,NCELL
+      DO K=1,4
+      IV=IVCELL(IC,K)
+      ICVFILL(IV)=ICVFILL(IV)+1
+      END DO
+      END DO
+
+      DO IV=1,NVERT
+      IF(ICVFILL(IV).EQ.0) WRITE(*,*)'ICVFILL=',&
+              ICVFILL(IV),'at vertex',IV
+      END DO
+
+      K=1
+      DO IV=1,NVERT
+      ICVSTA(IV)=K
+      IDUMMY(IV)=ICVSTA(IV)
+      K=K+ICVFILL(IV)
+      END DO 
+
+      ICVSTA(NVERT+1)=ICVSTA(NVERT)+ICVFILL(NVERT)
+      WRITE(*,*) 'ICVSTA(NVERT+1)=',ICVSTA(NVERT+1)
+      DO IC=1,NCELL
+      DO K=1,4
+      IV=IVCELL(IC,K)
+      L=IDUMMY(IV)
+      ICVERT(L)=IC
+      IDUMMY(IV)=IDUMMY(IV)+1
+      END DO
+      END DO
+
+      IV=2
+      DO 97 K=ICVSTA(IV),ICVSTA(IV+1)-1
+      IC=ICVERT(K)
+      I=ICLMAP(IC)
+      WRITE(*,*)'Cell surrounding IV=',IV,I
+      97 CONTINUE
+
+      IVFACE(1,1)=1
+      IVFACE(1,2)=2
+
+      IVFACE(2,1)=2
+      IVFACE(2,2)=3
+
+      IVFACE(3,1)=3
+      IVFACE(3,2)=4
+
+      IVFACE(4,1)=4
+      IVFACE(4,2)=1
+
+      DO IC=1,NCELL 
+      DO IF=1,4
+      IC2F(IC,IF)=0
+      END DO
+      END DO
+
+      DO IF=1,MAXFACES
+      IF2C(IF,1)=0
+      IF2C(IF,2)=0
+      END DO
+
+      IFACE=0
+
+      DO 100 IC=1,NCELL
+      DO 110 IF=1,4
+      IFACEOLD=IFACE
+      IF(IC2F(IC,IF).NE.0) GOTO  110
+      IVBASE =IVCELL(IC,IVFACE(IF,1))
+      IV1    =IVCELL(IC,IVFACE(IF,2))
+      KSTABASE=ICVSTA(IVBASE)
+      KENDBASE=ICVSTA(IVBASE+1)-1
+      DO 120 K=KSTABASE,KENDBASE
+      ICC=ICVERT(K)
+      IF(ICC.EQ.IC) GOTO 120
+      DO 130 IFF=1,4
+      IVV1=IVCELL(ICC,IVFACE(IFF,1))
+      IVV2=IVCELL(ICC,IVFACE(IFF,2))
+
+      IPROD11=IVBASE-IVV1
+      IPROD12=IVBASE-IVV2
+
+      IPROD21=IV1-IVV1
+      IPROD22=IV1-IVV2
+
+      IF((IPROD11.EQ.0 .AND. IPROD22.EQ.0).OR.(IPROD12.EQ.0 .AND. IPROD21.EQ.0)) THEN
+      IFACE=IFACE+1
+      IC2F(ICC,IFF)=IFACE
+
+      IF2V(IFACE,1)=IVBASE
+      IF2V(IFACE,2)=IV1
+
+      IF2C(IFACE,1)=IC
+      IF2C(IFACE,2)=ICC
+	  c2c(iff,ICC)=IC
+	  c2c(if,IC)=ICC
+
+     GOTO 115
+	 ENDIF
+
+      130 CONTINUE
+      120 CONTINUE
+
+      IF(IF2C(IFACEOLD+1,1).EQ.0) THEN
+              IF2C(IFACEOLD+1,1)=IC
+              IF2C(IFACEOLD+1,2)=0
+              IFACE=IFACEOLD+1
+
+              IF2V(IFACE,1)=IVBASE
+              IF2V(IFACE,2)=IV1
+      END IF
+
+      115 IC2F(IC,IF)=IFACE
+      IF(MOD(IFACE,100).EQ.0) WRITE(*,*)'Processing face=',IFACE
+      110 CONTINUE
+      100 CONTINUE
+      WRITE(*,*)'Total number of faces=',IFACE
+      NFACES=IFACE
+
+      DO NF=1,NFACES
+      IF2C(NF,3)=0
+      IF2C(NF,4)=0
+      END DO
+
+      DO NF=1,NFACES
+      IC1=IF2C(NF,1)
+      IC2=IF2C(NF,2)
+      IV1=IF2V(NF,1)
+      IV2=IF2V(NF,2)
+      IC1V1=IVCELL(IC1,1)
+      IC1V2=IVCELL(IC1,2)
+      IC1V3=IVCELL(IC1,3)
+      IC1V4=IVCELL(IC1,4)
+
+      IF ((IC1V1.EQ.IV1 .AND. IC1V2.EQ.IV2).OR. &
+              (IC1V2.EQ.IV1 .AND. IC1V1.EQ.IV2)) IF2C(NF,3)=1
+      IF ((IC1V2.EQ.IV1 .AND. IC1V3.EQ.IV2).OR. &
+              (IC1V3.EQ.IV1 .AND. IC1V2.EQ.IV2))  IF2C(NF,3)=2
+      IF ((IC1V3.EQ.IV1 .AND. IC1V4.EQ.IV2).OR. &
+              (IC1V4.EQ.IV1 .AND. IC1V3.EQ.IV2))  IF2C(NF,3)=3
+      IF ((IC1V4.EQ.IV1 .AND. IC1V1.EQ.IV2).OR. &
+              (IC1V1.EQ.IV1 .AND. IC1V4.EQ.IV2))  IF2C(NF,3)=4
+      
+	  IF (IC2 .NE.0) THEN
+      IC2V1=IVCELL(IC2,1)
+      IC2V2=IVCELL(IC2,2)
+      IC2V3=IVCELL(IC2,3)
+      IC2V4=IVCELL(IC2,4)
+
+      IF ((IC2V1.EQ.IV1 .AND. IC2V2.EQ.IV2).OR.&
+              (IC2V2.EQ.IV1 .AND. IC2V1.EQ.IV2))  IF2C(NF,4)=1
+      IF ((IC2V2.EQ.IV1 .AND. IC2V3.EQ.IV2).OR.&
+              (IC2V3.EQ.IV1 .AND. IC2V2.EQ.IV2))  IF2C(NF,4)=2
+      IF ((IC2V3.EQ.IV1 .AND. IC2V4.EQ.IV2).OR.&
+              (IC2V4.EQ.IV1 .AND. IC2V3.EQ.IV2))  IF2C(NF,4)=3
+      IF ((IC2V4.EQ.IV1 .AND. IC2V1.EQ.IV2).OR.&
+              (IC2V1.EQ.IV1 .AND. IC2V4.EQ.IV2))  IF2C(NF,4)=4
+
+      END IF
+	  END DO
+	
+
+      IBOUN=0
+      NCELLTOT=NCELL
+      DO 150 IF=1,NFACES
+      IC1=IF2C(IF,1)
+      IC2=IF2C(IF,2)
+      IF(IC2.EQ.0) THEN
+              IBOUN=IBOUN+1
+              NCELLTOT=NCELLTOT+1
+              IF2C(IF,2)=NCELLTOT
+      END IF
+      150 CONTINUE
+      NBOUN=IBOUN
+      WRITE(*,*)'Number of total boundary faces=',NBOUN
+      WRITE(*,*)'Total number of physical cells=',NCELL
+      WRITE(*,*)'Total number of cells(internal+boundaries)=',NCELLTOT
+
+
+      DEALLOCATE(ICVFILL)
+      DEALLOCATE(IDUMMY)
+
+      RETURN 
+	  END
+      
+
+
+
+
+
+
+
+

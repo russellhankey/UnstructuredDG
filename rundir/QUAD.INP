@@ -1,0 +1,24 @@
+input file will contain primarily tuning parameters for running quadrigen
+--------- FILE NAMES ----------------
+magneticfield.cel        NAMECEL
+magneticfield.vrt        NAMEVRT
+magneticfield.bnd        NAMEBND2D
+---------- Polynomial related ----------
+3              N_ORD
+---output refinement level
+3                NRE 
+----FREE-STREAM CONDITIONS--------------
+1.0             rinf	(all in SI units)	
+7.9365      pinf   95191.76 for square2d  old set 287.04
+1.0             uinf
+0.0             vinf
+---MAXITER-------
+100000           MAXITER
+---CFL NUMBER FOR FLOW CALCULATION-------
+0.25         CFL
+----DT-------
+1e-4      DT
+---restart option -----------
+0                restart
+restart.dat      restart file name    
+3                restart order    
