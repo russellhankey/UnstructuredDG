@@ -24,6 +24,8 @@ MODULE setup
       double precision,dimension(:,:),allocatable :: w1xx,w1xy,w1yy
       double precision,dimension(:,:),allocatable :: right0,rightx,righty
       double precision,dimension(:,:),allocatable :: rightxx,rightxy,rightyy
+      double precision,dimension(:,:),allocatable :: o0,ox,oy
+      double precision,dimension(:,:),allocatable :: oxx,oxy,oyy
       double precision,dimension(:,:,:,:),allocatable :: fv_vedge,fv_hedge
       double precision,dimension(:,:,:,:),allocatable :: djacobf,djacobv
 	  double precision,dimension(:,:,:),allocatable :: djacobvertex,jacobf,jacobv,jacobtecint,jacobtecv
