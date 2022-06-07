@@ -124,12 +124,12 @@ SUBROUTINE initialize
 				
             y = xx(2)
             rho = gama**2
-            u = -sin(y)
-            v = sin(x)
+            u = 1.0!-sin(y)
+            v = 0!sin(x)
             ww = 0.d0
             pr = gama
-            Bx = -sin(y)
-            By = sin(x*2)
+            Bx = 0!-sin(y)
+            By = 0!sin(x*2)
             Bz = 0.d0
             NORM_U = u**2+v**2+ww**2
             NORM_B = Bx**2+By**2+Bz**2

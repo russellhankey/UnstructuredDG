@@ -21,36 +21,9 @@ include 'MESH2D.INC'
 		NORM_B = Bx**2 + By**2 + Bz**2
 		p=(gama-1)*(rhoE-0.5*rho*NORM_U-0.5*NORM_B)
 
-!		write(*,*)
-!		write(*,*)
-!		write(*,*)
-!		write(*,*)"iteration:",iter
-!		write(*,*)"rho:",rho
-!		write(*,*)"u:",u
-!		write(*,*)"v:",v
-!		write(*,*)"w:",ww
-!		write(*,*)"Bx:",Bx
-!		write(*,*)"By:",By
-!		write(*,*)"Bz:",Bz
-!		write(*,*)"rhoE:",rhoE
-!		write(*,*)"p:",p
-!		write(*,*)
-!		write(*,*)
-!		write(*,*)
-
-		temp1=abs(u)+sqrt(gama*p/rho)
-		temp2=abs(v)+sqrt(gama*p/rho)
-		temp3=abs(ww)+sqrt(gama*p/rho)
-		temp=sqrt(temp1*temp1 + Bx*Bx + temp2*temp2 + By*By + temp3*temp3 + Bz*Bz)
-!		write(*,*)
-!		write(*,*)
-!		write(*,*)
-!		write(*,*)"temp1:",temp1
-!		write(*,*)"temp2:",temp2
-!		write(*,*)"temp:",temp
-!		write(*,*)
-!		write(*,*)
-!		write(*,*)
+		temp1=u*u + v*v + ww*ww
+		temp2=sqrt(gama*p/rho)
+		temp=sqrt(temp1) + temp2
 		if (temp .gt. rlambdamax) rlambdamax=temp
 	 end do
 	 
