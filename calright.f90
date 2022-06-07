@@ -108,12 +108,12 @@ SUBROUTINE calright
 		  do jgp=1,3
 		     psi=gp(igp)
 			 eta=gp(jgp)
-			 a1 = a1+jacobv(igp,jgp,ic)*w(igp)*w(jgp)
-			 ax =ax+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*psi*psi
-			 ay=ay+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*eta*eta
-			 axx =axx+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*(psi*psi-1.0/12)*(psi*psi-1.0/12)
-			 axy=axy+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*psi*eta*psi*eta
-			 ayy =ayy+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*(eta*eta-1.0/12)*(eta*eta-1.0/12)
+			 a1 = a1+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*rmass(1)
+			 ax =ax+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*psi*psi*rmass(2)
+			 ay=ay+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*eta*eta*rmass(3)
+			 axx =axx+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*(psi*psi-1.0/12)*(psi*psi-1.0/12)*rmass(4)
+			 axy=axy+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*psi*eta*psi*eta*rmass(5)
+			 ayy =ayy+jacobv(igp,jgp,ic)*w(igp)*w(jgp)*(eta*eta-1.0/12)*(eta*eta-1.0/12)*rmass(6)
 		 end do
 		end do
 		

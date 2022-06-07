@@ -124,7 +124,7 @@ SUBROUTINE initialize
 				
             y = xx(2)
             rho = gama**2
-            u = 1.0!-sin(y)
+            u = 1!-sin(y)
             v = 0!sin(x)
             ww = 0.d0
             pr = gama

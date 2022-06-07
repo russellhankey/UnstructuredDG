@@ -64,6 +64,7 @@ PROGRAM main
 	  !do while (checkstat/=1)
 	       iter=iter+1
 		   if(flag.eq.0) call calc_cfl
+
 		if (t+dt .gt. ft) dt=ft-t
 		t=t+dt
 		!kcount=kcount+1
@@ -165,26 +166,26 @@ PROGRAM main
 		residnorm=residnorm/(NCELL*5)
 
 
-		if(flag.eq.0 .and. residnorm.ne.residnorm) then
-			t = 0
-			dt = ndt
-			iter = 0
-			write(*,*)"dt switched to defined dt:",ndt
-			flag = 1
-
-			do ic=1,NCELL
-				do k=1,8
-				   u0(k,ic)=o0(k,ic)
-				   ux(k,ic)=ox(k,ic)
-				   uy(k,ic)=oy(k,ic)
-				   uxx(k,ic)=oxx(k,ic)
-				   uxy(k,ic)=oxy(k,ic)
-				   uyy(k,ic)=oyy(k,ic)
-				end do
-			  end do
-
-			cycle
-		end if
+!		if(flag.eq.0 .and. residnorm.ne.residnorm) then
+!			t = 0
+!			dt = ndt
+!			iter = 0
+!			write(*,*)"dt switched to defined dt:",ndt
+!			flag = 1
+!
+!			do ic=1,NCELL
+!				do k=1,8
+!				   u0(k,ic)=o0(k,ic)
+!				   ux(k,ic)=ox(k,ic)
+!				   uy(k,ic)=oy(k,ic)
+!				   uxx(k,ic)=oxx(k,ic)
+!				   uxy(k,ic)=oxy(k,ic)
+!				   uyy(k,ic)=oyy(k,ic)
+!				end do
+!			  end do
+!
+!			cycle
+!		end if
 
 ! stop the program if something goes wrong
 		if(abs(residnorm) .le. 1.e-16) then!checkstat=1

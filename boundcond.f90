@@ -87,9 +87,10 @@ SUBROUTINE BCflux
 		          ifacelc=IF2C(iface,3)
 		          ifacerc=IF2C(iface,4)
 		  
-		          do nfp=1,3
-		              sign_l=1
-			          if(ifacelc .eq. 1.) then
+		      do nfp=1,3
+
+		     sign_l=1
+			 if(ifacelc .eq. 1.) then
 			         psi=gp(nfp)
 				  eta=-0.5
 				  do k=1,8
@@ -155,7 +156,7 @@ SUBROUTINE BCflux
 				
 				do nfp=1,3
 		           sign_l=1
-			      if(ifacelc .eq. 1.) then
+			 if(ifacelc .eq. 1.) then
 			          psi=gp(nfp)
 				      eta=-0.5
 				      do k=1,8
@@ -164,7 +165,7 @@ SUBROUTINE BCflux
 				     sign_l=-1
 				     normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				     normfl(2)=djacobf(1,nfp,ifacelc,icleft)
-			    end if  
+			 end if  
 			
 			 if(ifacelc .eq. 2.) then
 			      psi=0.5
