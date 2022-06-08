@@ -9,12 +9,17 @@ integer :: plotnodes,plotcells,Nfacenodes
 integer :: k,is,js,newnode,newnode_r,nd,nodeid,nface,ic,jc
 integer :: i,j,inode,jnode
 integer :: IC2V(4),gnid,icleft,icright,ifacelc,ifacerc,iface,icell,gcid
-double precision :: psi,eta,calc_Q,Qleft(8),Qright(8),xxf(2,4),gam1,v2,xx(2),NORM_U,NORM_B
 integer,allocatable :: gnode_cellcount(:),g_index_node(:,:)
 integer,allocatable :: ivnewcells(:,:),newfacenodes(:,:)
 double precision,allocatable :: plotX(:,:),plotQ(:,:),mach(:),intene(:)
 character(80) :: filename=''
 character*16 :: tecfile
+
+! MHD
+!double precision :: psi,eta,calc_Q,Qleft(8),Qright(8),xxf(2,4),gam1,v2,xx(2),NORM_U,NORM_B
+
+! Euler
+double precision :: psi,eta,calc_Q,Qleft(4),Qright(4),xxf(2,4),gam1,v2,xx(2),NORM_U
 
 plotnodes=0
 plotcells=0
@@ -22,13 +27,18 @@ Nfacenodes=Npart-1
 gam1=gama-1
 
 allocate(plotX(2,MAXVRT))
-allocate(plotQ(8,MAXVRT))
 allocate(mach(MAXVRT))
 allocate(intene(MAXVRT))
 allocate(gnode_cellcount(MAXVRT))
 allocate(newfacenodes(Nfacenodes,NFACES))
 allocate(ivnewcells(4,NCELL*Npart*Npart))
 allocate(g_index_node(Npart+1,Npart+1))
+
+! MHD
+!allocate(plotQ(8,MAXVRT))
+
+! Euler
+allocate(plotQ(4,MAXVRT))
 
 plotQ(:,:)=0
 gnode_cellcount(:)=0
@@ -53,16 +63,19 @@ do icell=1,NCELL
 	  case(4)
 	      psi=-0.5
 		  eta=0.5	  
-	  end select	  
-	  do i=1,8
-          plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
-                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
-       end do
-	  
-	  !do i=1,4
-	  !plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
-      !                      uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
-	  !end do
+	  end select
+
+!	  MHD
+!	  do i=1,8
+!          plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
+!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+!       end do
+
+!	  Euler	  
+	  do i=1,4
+	  plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
+                            uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+	  end do
 	  
       if (gnode_cellcount(gnid)==0) then
 	       plotnodes = plotnodes+1
@@ -107,14 +120,18 @@ do iface=1,NFACES
 				
 			end select
 			
-			do i=1,8
-			       Qleft(i)=Qleft(i)+calc_Q(u0(i,icleft),ux(i,icleft),uy(i,icleft), &
-                            uxx(i,icleft),uxy(i,icleft),uyy(i,icleft),psi,eta)
-			   end do
-			!do i=1,4
-			!Qleft(i)=Qleft(i)+calc_Q(u0(i,icleft),ux(i,icleft),uy(i,icleft), &
-            !                uxx(i,icleft),uxy(i,icleft),uyy(i,icleft),psi,eta)
-			!end do
+!	  		MHD
+!	  		do i=1,8
+!    		      plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
+!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+!      		end do
+
+!			  Euler	  
+			do i=1,4
+				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
+									  uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+			end do
+
 			do k=1,4
 			   nodeid=IVCELL(icleft,k)
 			   xxf(1,k)=XV(nodeid)
@@ -145,10 +162,17 @@ do iface=1,NFACES
 						
 				do is=1,N
 				do js=1,N
-				do i=1,8
-					Qright(i) = Qright(i) +calc_Q(u0(i,icright),ux(i,icright),uy(i,icright), &
-                            uxx(i,icright),uxy(i,icright),uyy(i,icright),psi,eta)
-				end do
+!	  		MHD
+!	  		do i=1,8
+!    		      plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
+!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+!      		end do
+
+!			  Euler	  
+			do i=1,4
+				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
+									  uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+			end do
 				end do
 				end do
 				
@@ -156,7 +180,7 @@ do iface=1,NFACES
 			Qright=Qleft
 			end if
 			
-			plotQ(:,gnid)=Qleft+Qright
+			plotQ(:,gnid)=Qleft(:)+Qright(:)
 			gnode_cellcount(gnid)=2
     end do
 end do
@@ -175,10 +199,18 @@ do icell=1,NCELL
 			psi=real(inode)/real(Npart)-0.5
 			eta=real(jnode)/real(Npart)-0.5
 			
-			plotQ(1:8,gnid)=0.0
-			do i=1,8
-			plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
-                            uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+			plotQ(1:4,gnid)=0.0
+			
+!	  		MHD
+!	  		do i=1,8
+!    		      plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
+!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+!      		end do
+
+!			  Euler	  
+			do i=1,4
+				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
+									  uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
 			end do
 			gnode_cellcount(gnid)=1
 			g_index_node(inode+1,jnode+1)=gnid
@@ -265,42 +297,76 @@ do icell=1,NCELL
 		
 end do
 
-  do nd=1,plotnodes
-      plotQ(:,nd)=plotQ(:,nd)/real(gnode_cellcount(nd))
-	  plotQ(2,nd) = plotQ(2,nd)/plotQ(1,nd)
-	  plotQ(3,nd) = plotQ(3,nd)/plotQ(1,nd)
-	  plotQ(4,nd) = plotQ(4,nd)/plotQ(1,nd)
-	  NORM_U=plotQ(2,nd)**2+plotQ(3,nd)**2+plotQ(4,nd)**2
-	  NORM_B=plotQ(6,nd)**2+plotQ(7,nd)**2+plotQ(8,nd)**2
-	  plotQ(5,nd) = (gama-1)*(plotQ(5,nd)-0.5*plotQ(1,nd)*NORM_U-0.5*NORM_B)
-	 ! v2=plotQ(2,nd)**2+plotQ(3,nd)**2
-	 ! plotQ(4,nd) = gam1*(plotQ(4,nd)-0.5*plotQ(1,nd)*v2)
-	 ! mach(nd) = sqrt(plotQ(2,nd)**2+plotQ(3,nd)**2) / &
-     !   		   sqrt(gama*plotQ(4,nd)/plotQ(1,nd))
-	 !intene(nd) = plotQ(4,nd)/(gam1*plotQ(1,nd))
-   end do
+! MHD
+!  do nd=1,plotnodes
+!      plotQ(:,nd)=plotQ(:,nd)/real(gnode_cellcount(nd))
+!	  plotQ(2,nd) = plotQ(2,nd)/plotQ(1,nd)
+!	  plotQ(3,nd) = plotQ(3,nd)/plotQ(1,nd)
+!	  plotQ(4,nd) = plotQ(4,nd)/plotQ(1,nd)
+!	  NORM_U=plotQ(2,nd)**2+plotQ(3,nd)**2+plotQ(4,nd)**2
+!	  NORM_B=plotQ(6,nd)**2+plotQ(7,nd)**2+plotQ(8,nd)**2
+!	  plotQ(5,nd) = (gama-1)*(plotQ(5,nd)-0.5*plotQ(1,nd)*NORM_U-0.5*NORM_B)
+!!	  v2=plotQ(2,nd)**2+plotQ(3,nd)**2
+!!	  plotQ(4,nd) = gam1*(plotQ(4,nd)-0.5*plotQ(1,nd)*v2)
+!!	  mach(nd) = sqrt(plotQ(2,nd)**2+plotQ(3,nd)**2) / &
+!!        		   sqrt(gama*plotQ(4,nd)/plotQ(1,nd))
+!!	 intene(nd) = plotQ(4,nd)/(gam1*plotQ(1,nd))
+!   end do
+
+! Euler
+	do nd=1,plotnodes
+		plotQ(:,nd)=plotQ(:,nd)/real(gnode_cellcount(nd))
+		plotQ(2,nd) = plotQ(2,nd)/plotQ(1,nd)
+		plotQ(3,nd) = plotQ(3,nd)/plotQ(1,nd)
+		v2=plotQ(2,nd)**2+plotQ(3,nd)**2
+		plotQ(4,nd) = gam1*(plotQ(4,nd)-0.5*plotQ(1,nd)*v2)
+		mach(nd) = sqrt(plotQ(2,nd)**2+plotQ(3,nd)**2) / &
+					 sqrt(gama*plotQ(4,nd)/plotQ(1,nd))
+	    intene(nd) = plotQ(4,nd)/(gam1*plotQ(1,nd))
+	end do
    
    write(filename,'(a,i6.6,a)')'testec',iter,'.dat'
    tecfile=trim(filename)
-   
+
+!   MHD   
+!   open (unit=1,file =tecfile, form='formatted')
+!    write(1, *) 'TITLE = "DG2D QUAD MESH"'
+!    write(1, *) 'VARIABLES = "X", "Y", "ROU", "U", "V", "W", "P", "Bx", "By", "Bz"'
+!    write(1, *) 'ZONE T="REFINED MESHES"    N=', plotnodes, "E=", plotcells, "DATAPACKING=POINT"
+!    write(1, *) 'ZONETYPE=FEQuadrilateral'
+!	
+!	do i=1,plotnodes
+!       	write(1,1000) (plotX(j,i),j=1,2),(plotQ(is,i),is=1,8)
+!    end do
+!
+!    do i = 1,plotcells
+!    	write(1,1001) (ivnewcells(j,i),j=1,4)
+!    end do
+!
+!1000    format (10(G16.8,1X))
+!1001    format (4(I9,1X))
+!
+!    close(1)
+
+!	Euler
    open (unit=1,file =tecfile, form='formatted')
-    write(1, *) 'TITLE = "DG2D QUAD MESH"'
-    write(1, *) 'VARIABLES = "X", "Y", "ROU", "U", "V", "W", "P", "Bx", "By", "Bz"'
-    write(1, *) 'ZONE T="REFINED MESHES"    N=', plotnodes, "E=", plotcells, "DATAPACKING=POINT"
-    write(1, *) 'ZONETYPE=FEQuadrilateral'
-	
-	do i=1,plotnodes
-       	write(1,1000) (plotX(j,i),j=1,2),(plotQ(is,i),is=1,8)
-    end do
+   write(1, *) 'TITLE = "DG2D QUAD MESH"'
+   write(1, *) 'VARIABLES = "X", "Y", "ROU", "U", "V", "P", "Mach", "Temp"'
+   write(1, *) 'ZONE T="REFINED MESHES"    N=', plotnodes, "E=", plotcells, "DATAPACKING=POINT"
+   write(1, *) 'ZONETYPE=FEQuadrilateral'
+   
+   do i=1,plotnodes
+		  write(1,1000) (plotX(j,i),j=1,2),(plotQ(is,i),is=1,4),mach(i),intene(i)
+   end do
 
-    do i = 1,plotcells
-    	write(1,1001) (ivnewcells(j,i),j=1,4)
-    end do
+   do i = 1,plotcells
+	   write(1,1001) (ivnewcells(j,i),j=1,4)
+   end do
 
-1000    format (10(G16.8,1X))
+1000    format (8(G16.8,1X))
 1001    format (4(I9,1X))
 
-    close(1)
+   close(1)
 	deallocate(plotQ,plotX,mach)
 	
 	END SUBROUTINE tecplotter

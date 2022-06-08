@@ -11,9 +11,14 @@ SUBROUTINE initialize
 	  double precision :: xr, yr
 	  double precision :: psi,eta
 	  double precision :: ur,vr,V2,theta
-	  double precision::	Qvi(8)
-	  
 	  double precision :: tt
+
+!	  MHD
+!	  double precision :: Qvi(8)
+
+!     Euler
+	  double precision :: Qvi(4)
+	  
 	  
 	  !double precision	:: rinf,pinf,uinf,vinf
 	  !rinf=1.0
@@ -24,34 +29,86 @@ SUBROUTINE initialize
 	  theta=ATAN(0.5)
 	  
 	  
-	  
-	  ALLOCATE (u0(1:8,1:NCELL))
-      ALLOCATE (ux(1:8,1:NCELL))
-      ALLOCATE (uy(1:8,1:NCELL))
-      ALLOCATE (uxx(1:8,1:NCELL))
-      ALLOCATE (uxy(1:8,1:NCELL))
-      ALLOCATE (uyy(1:8,1:NCELL))
+!	  MHD
+!	  ALLOCATE (u0(1:8,1:NCELL))
+!      ALLOCATE (ux(1:8,1:NCELL))
+!      ALLOCATE (uy(1:8,1:NCELL))
+!      ALLOCATE (uxx(1:8,1:NCELL))
+!      ALLOCATE (uxy(1:8,1:NCELL))
+!      ALLOCATE (uyy(1:8,1:NCELL))
+!
+!      ALLOCATE (w10(1:8,1:NCELL))
+!      ALLOCATE (w1x(1:8,1:NCELL))
+!      ALLOCATE (w1y(1:8,1:NCELL))
+!      ALLOCATE (w1xx(1:8,1:NCELL))
+!      ALLOCATE (w1xy(1:8,1:NCELL))
+!      ALLOCATE (w1yy(1:8,1:NCELL))
+!
+!      ALLOCATE (right0(1:8,1:NCELL))
+!      ALLOCATE (rightx(1:8,1:NCELL))
+!      ALLOCATE (righty(1:8,1:NCELL))
+!      ALLOCATE (rightxx(1:8,1:NCELL))
+!      ALLOCATE (rightxy(1:8,1:NCELL))
+!      ALLOCATE (rightyy(1:8,1:NCELL))
+!
+!	  allocate (o0(1:8,1:NCELL))
+!	  allocate (ox(1:8,1:NCELL))
+!	  allocate (oy(1:8,1:NCELL))
+!	  allocate (oxx(1:8,1:NCELL))
+!	  allocate (oxy(1:8,1:NCELL))
+!	  allocate (oyy(1:8,1:NCELL))
+!	  
+!	  allocate(gp(1:3))
+!	  allocate(w(1:3))
+!	  allocate(jacobvertex(1:4,1:NCELL))
+!	  allocate(djacobvertex(1:4,1:4,1:NCELL))
+!	  allocate(djacobf(1:4,1:3,1:4,1:NCELL))
+!	  allocate(jacobf(1:3,1:4,1:NCELL))
+!	  allocate(djacobv(1:4,1:3,1:3,1:NCELL))
+!	  allocate(jacobv(1:3,1:3,1:NCELL))
+!	  allocate(f_edge(1:8,1:3,1:4,1:NCELL))
+!	  allocate(area(1:NCELL))
+!	  allocate(rmass(6))
+!	  
+!!	  allocate(jacobtecint(1:2,1:4,1:NCELL))
+!!	  allocate(jacobtecv(1:2,1:2,1:NCELL))
+!	  
+!	  allocate(Qv(1:8,1:3,1:3,1:NCELL))
+!	  allocate(Qub(1:8,1:3,1:2,1:NCELL))
+!	  allocate(Qlr(1:8,1:3,1:2,1:NCELL))
+!	  allocate(Qa(1:8,1:3,1:4,1:NCELL))
+!	  
+!	  allocate(iface2fp(N,4))
+!	  allocate(jface2fp(N,4))
 
-      ALLOCATE (w10(1:8,1:NCELL))
-      ALLOCATE (w1x(1:8,1:NCELL))
-      ALLOCATE (w1y(1:8,1:NCELL))
-      ALLOCATE (w1xx(1:8,1:NCELL))
-      ALLOCATE (w1xy(1:8,1:NCELL))
-      ALLOCATE (w1yy(1:8,1:NCELL))
+!	  Euler
+	  ALLOCATE (u0(1:4,1:NCELL))
+      ALLOCATE (ux(1:4,1:NCELL))
+      ALLOCATE (uy(1:4,1:NCELL))
+      ALLOCATE (uxx(1:4,1:NCELL))
+      ALLOCATE (uxy(1:4,1:NCELL))
+      ALLOCATE (uyy(1:4,1:NCELL))
 
-      ALLOCATE (right0(1:8,1:NCELL))
-      ALLOCATE (rightx(1:8,1:NCELL))
-      ALLOCATE (righty(1:8,1:NCELL))
-      ALLOCATE (rightxx(1:8,1:NCELL))
-      ALLOCATE (rightxy(1:8,1:NCELL))
-      ALLOCATE (rightyy(1:8,1:NCELL))
+      ALLOCATE (w10(1:4,1:NCELL))
+      ALLOCATE (w1x(1:4,1:NCELL))
+      ALLOCATE (w1y(1:4,1:NCELL))
+      ALLOCATE (w1xx(1:4,1:NCELL))
+      ALLOCATE (w1xy(1:4,1:NCELL))
+      ALLOCATE (w1yy(1:4,1:NCELL))
 
-	  allocate (o0(1:8,1:NCELL))
-	  allocate (ox(1:8,1:NCELL))
-	  allocate (oy(1:8,1:NCELL))
-	  allocate (oxx(1:8,1:NCELL))
-	  allocate (oxy(1:8,1:NCELL))
-	  allocate (oyy(1:8,1:NCELL))
+      ALLOCATE (right0(1:4,1:NCELL))
+      ALLOCATE (rightx(1:4,1:NCELL))
+      ALLOCATE (righty(1:4,1:NCELL))
+      ALLOCATE (rightxx(1:4,1:NCELL))
+      ALLOCATE (rightxy(1:4,1:NCELL))
+      ALLOCATE (rightyy(1:4,1:NCELL))
+
+	  allocate (o0(1:4,1:NCELL))
+	  allocate (ox(1:4,1:NCELL))
+	  allocate (oy(1:4,1:NCELL))
+	  allocate (oxx(1:4,1:NCELL))
+	  allocate (oxy(1:4,1:NCELL))
+	  allocate (oyy(1:4,1:NCELL))
 
 	  allocate(gp(1:3))
 	  allocate(w(1:3))
@@ -61,17 +118,17 @@ SUBROUTINE initialize
 	  allocate(jacobf(1:3,1:4,1:NCELL))
 	  allocate(djacobv(1:4,1:3,1:3,1:NCELL))
 	  allocate(jacobv(1:3,1:3,1:NCELL))
-	  allocate(f_edge(1:8,1:3,1:4,1:NCELL))
+	  allocate(f_edge(1:4,1:3,1:4,1:NCELL))
 	  allocate(area(1:NCELL))
 	  allocate(rmass(6))
 	  
-	  allocate(jacobtecint(1:2,1:4,1:NCELL))
-	  allocate(jacobtecv(1:2,1:2,1:NCELL))
+!	  allocate(jacobtecint(1:2,1:4,1:NCELL))
+!	  allocate(jacobtecv(1:2,1:2,1:NCELL))
 	  
-	  allocate(Qv(1:8,1:3,1:3,1:NCELL))
-	  allocate(Qub(1:8,1:3,1:2,1:NCELL))
-	  allocate(Qlr(1:8,1:3,1:2,1:NCELL))
-	  allocate(Qa(1:8,1:3,1:4,1:NCELL))
+	  allocate(Qv(1:4,1:3,1:3,1:NCELL))
+	  allocate(Qub(1:4,1:3,1:2,1:NCELL))
+	  allocate(Qlr(1:4,1:3,1:2,1:NCELL))
+	  allocate(Qa(1:4,1:3,1:4,1:NCELL))
 	  
 	  allocate(iface2fp(N,4))
 	  allocate(jface2fp(N,4))
@@ -85,78 +142,142 @@ SUBROUTINE initialize
       gp(3)=sqrt(15.)/10.
      
 
-      DO I=1,NCELL
-	  DO K=1,8
-      u0(K,I)=0
-      u0(K,I)=0
-      u0(K,I)=0
-      u0(K,I)=0
-      ux(K,I)=0
-      uy(K,I)=0
-      uxx(K,I)=0
-      uxy(K,I)=0
-      uyy(K,I)=0
-      END DO
-      END DO
-	  
-	 ! CALL output
-	  !call tecplotnorefinement
-	  !call tecplotter(N)
-	  rmass(1)=1
-	  rmass(2)=12
-	  rmass(3)=12
-	  rmass(4)=180
-	  rmass(5)=144
-	  rmass(6)=180
-	  
-	   CALL calcjacob 
-	   
-	   do ic=1,NCELL
-	      do iv=1,4
-		     xxs(1,iv)=XV(IVCELL(ic,iv))
-			 xxs(2,iv)=YV(IVCELL(ic,iv))
-		  end do
-		  
-		  do igp=1,3
-		     do jgp=1,3
-			    CALL xyCoor_atGps(4,xxs,gp(igp),gp(jgp),xx)
-				x = xx(1)
-				
-            y = xx(2)
-            rho = gama**2
-            u = 1!-sin(y)
-            v = 0!sin(x)
-            ww = 0.d0
-            pr = gama
-            Bx = 0!-sin(y)
-            By = 0!sin(x*2)
-            Bz = 0.d0
-            NORM_U = u**2+v**2+ww**2
-            NORM_B = Bx**2+By**2+Bz**2
-            Qvi(1) = rho
-            Qvi(2) = rho*u
-            Qvi(3) = rho*v
-            Qvi(4) = rho*ww
-            Qvi(5) = pr/(gama-1) + 0.5d0*rho*NORM_U + 0.5d0*NORM_B
-            Qvi(6) = Bx
-            Qvi(7) = By
-            Qvi(8) = Bz
-			Qv(1:8,igp,jgp,ic)=Qvi(1:8)
-		    end do
-		end do
-		do igp=1,3
-		    do jgp=1,3
-			   do k=1,8
-			   u0(k,ic)=u0(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*rmass(1)
-			   ux(k,ic)=ux(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*gp(igp)*rmass(2)
-			   uy(k,ic)=uy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*gp(jgp)*rmass(3)
-			   uxx(k,ic)=uxx(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(igp)*gp(igp)-1./12.)*rmass(4)
-			   uxy(k,ic)=uxy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(igp)*gp(jgp))*rmass(5)
-			   uyy(k,ic)=uyy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(jgp)*gp(jgp)-1./12.)*rmass(6)
-			   end do
-			 end do
-		end do
+!	  MHD
+!      DO I=1,NCELL
+!	  DO K=1,8
+!      u0(K,I)=0
+!      u0(K,I)=0
+!      u0(K,I)=0
+!      u0(K,I)=0
+!      ux(K,I)=0
+!      uy(K,I)=0
+!      uxx(K,I)=0
+!      uxy(K,I)=0
+!      uyy(K,I)=0
+!      END DO
+!      END DO
+!	  
+!	 ! CALL output
+!	  !call tecplotnorefinement
+!	  !call tecplotter(N)
+!	  rmass(1)=1
+!	  rmass(2)=12
+!	  rmass(3)=12
+!	  rmass(4)=180
+!	  rmass(5)=144
+!	  rmass(6)=180
+!	  
+!	   CALL calcjacob 
+!	   
+!	   do ic=1,NCELL
+!	      do iv=1,4
+!		     xxs(1,iv)=XV(IVCELL(ic,iv))
+!			 xxs(2,iv)=YV(IVCELL(ic,iv))
+!		  end do
+!		  
+!		  do igp=1,3
+!		     do jgp=1,3
+!			    CALL xyCoor_atGps(4,xxs,gp(igp),gp(jgp),xx)
+!				x = xx(1)
+!				
+!            y = xx(2)
+!            rho = gama**2
+!            u = 0.01!-sin(y)
+!            v = 0!sin(x)
+!            ww = 0.d0
+!            pr = gama
+!            Bx = 0!-sin(y)
+!            By = 0!sin(x*2)
+!            Bz = 0.d0
+!            NORM_U = u**2+v**2+ww**2
+!            NORM_B = Bx**2+By**2+Bz**2
+!            Qvi(1) = rho
+!            Qvi(2) = rho*u
+!            Qvi(3) = rho*v
+!            Qvi(4) = rho*ww
+!            Qvi(5) = pr/(gama-1) + 0.5d0*rho*NORM_U + 0.5d0*NORM_B
+!            Qvi(6) = Bx
+!            Qvi(7) = By
+!            Qvi(8) = Bz
+!			Qv(1:8,igp,jgp,ic)=Qvi(1:8)
+!		    end do
+!		end do
+!		do igp=1,3
+!		    do jgp=1,3
+!			   do k=1,8
+!			   u0(k,ic)=u0(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*rmass(1)
+!			   ux(k,ic)=ux(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*gp(igp)*rmass(2)
+!			   uy(k,ic)=uy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*gp(jgp)*rmass(3)
+!			   uxx(k,ic)=uxx(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(igp)*gp(igp)-1./12.)*rmass(4)
+!			   uxy(k,ic)=uxy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(igp)*gp(jgp))*rmass(5)
+!			   uyy(k,ic)=uyy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(jgp)*gp(jgp)-1./12.)*rmass(6)
+!			   end do
+!			 end do
+!		end do
 		
+!		Euler
+      DO I=1,NCELL
+		DO K=1,4
+		u0(K,I)=0
+		ux(K,I)=0
+		uy(K,I)=0
+		uxx(K,I)=0
+		uxy(K,I)=0
+		uyy(K,I)=0
+		END DO
+		END DO
+		
+	   ! CALL output
+		!call tecplotnorefinement
+		!call tecplotter(N)
+		rmass(1)=1
+		rmass(2)=12
+		rmass(3)=12
+		rmass(4)=180
+		rmass(5)=144
+		rmass(6)=180
+		
+		 CALL calcjacob 
+		 
+		 do ic=1,NCELL
+			do iv=1,4
+			   xxs(1,iv)=XV(IVCELL(ic,iv))
+			   xxs(2,iv)=YV(IVCELL(ic,iv))
+			end do
+			
+			do igp=1,3
+			   do jgp=1,3
+				  CALL xyCoor_atGps(4,xxs,gp(igp),gp(jgp),xx)
+				  x = xx(1)
+				  
+			  y = xx(2)
+			  rho = gama**2
+			  u = 0.01!-sin(y)
+			  v = 0!sin(x)
+			  pr = gama
+
+			  NORM_U = u**2+v**2
+
+			  Qvi(1) = rho
+			  Qvi(2) = rho*u
+			  Qvi(3) = rho*v
+			  Qvi(5) = pr/(gama-1) + 0.5d0*rho*NORM_U
+			  Qv(1:4,igp,jgp,ic)=Qvi(1:4)
+			  end do
+		  end do
+		  do igp=1,3
+			  do jgp=1,3
+				 do k=1,4
+				 u0(k,ic)=u0(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*rmass(1)
+				 ux(k,ic)=ux(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*gp(igp)*rmass(2)
+				 uy(k,ic)=uy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*gp(jgp)*rmass(3)
+				 uxx(k,ic)=uxx(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(igp)*gp(igp)-1./12.)*rmass(4)
+				 uxy(k,ic)=uxy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(igp)*gp(jgp))*rmass(5)
+				 uyy(k,ic)=uyy(k,ic) + w(igp)*w(jgp)*Qv(k,igp,jgp,ic)*(gp(jgp)*gp(jgp)-1./12.)*rmass(6)
+				 end do
+			   end do
+		  end do
+
 		end do
 		!call tecplotnorefinement
 		call tecplotter(N)

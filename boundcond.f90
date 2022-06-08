@@ -4,11 +4,17 @@ SUBROUTINE BCflux
       INCLUDE 'MESH2D.INC'
 	  integer :: icleft,icright,ifacelc,ifacerc,nfp,nfpr,sign_l,sign_r,ifacelcB,icleftB,iface,ipair,k1,k2
 	  double precision :: psi,eta,calc_Q
-	  double precision,dimension(8) :: Ql,Qr
 	  double precision,dimension(2) :: normfl
-	  double precision,dimension(8) :: Fnl,Fnr
 	  integer :: k,nf,i
 	  integer :: flagl,flagr
+
+!	  MHD
+!	  double precision,dimension(8) :: Ql,Qr
+!	  double precision,dimension(8) :: Fnl,Fnr
+
+!	  Euler
+	  double precision,dimension(4) :: Ql,Qr
+	  double precision,dimension(4) :: Fnl,Fnr
 	  
 	  sign_r=1
 	  do nf=1,NINLET
@@ -25,9 +31,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 1.) then
 			      psi=gp(nfp)
 				  eta=-0.5
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+
+!				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  sign_l=-1
 				  normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				  normfl(2)=djacobf(1,nfp,ifacelc,icleft)
@@ -36,9 +49,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 2.) then
 			      psi=0.5
 				  eta=gp(nfp)
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+!				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  normfl(1)=djacobf(4,nfp,ifacelc,icleft)
 				  normfl(2)=-djacobf(2,nfp,ifacelc,icleft)
 			 end if  
@@ -46,9 +66,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 3.) then
 			      psi=gp(N-nfp+1)
 				  eta=0.5
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+!				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				  normfl(2)=djacobf(1,nfp,ifacelc,icleft)
 			 end if 
@@ -56,25 +83,43 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 4.) then
 			      psi=-0.5
 				  eta=gp(N-nfp+1)
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+!				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  sign_l=-1
 				  normfl(1)=djacobf(4,nfp,ifacelc,icleft)
 				  normfl(2)=-djacobf(2,nfp,ifacelc,icleft)
 			 end if
-			 
-			 Qr(1:8)=Ql(1:8)
+
+!			 MHD
+!			 Qr(1:8)=Ql(1:8)
+
+!			 Euler
+			 Qr(1:4)=Ql(1:4)
+
 			 !Qr(1)=rinf
 			 !Qr(2)=uinf*rinf
 			 !Qr(3)=rinf*vinf
 			 !Qr(4)=pinf/(gama-1)+0.5*(Qr(2)**2+Qr(3)**2)/Qr(1)
 			 CALL getrusanovflux(Ql,Qr,Fnl,Fnr,normfl,sign_l,sign_r)
 			 
-			 do k=1,8
-			    f_edge(k,nfp,ifacelc,icleft)=Fnl(k)
-		     end do
+!			 MHD			 
+!			 do k=1,8
+!			    f_edge(k,nfp,ifacelc,icleft)=Fnl(k)
+!		     end do
 			 
+!			 Euler
+			 do k=1,4 
+				f_edge(k,nfp,ifacelc,icleft)=Fnl(k)
+			 end do
+
 			 end do
 			 end do
 			 
@@ -93,9 +138,17 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 1.) then
 			         psi=gp(nfp)
 				  eta=-0.5
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+
+! 				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
+
 				  sign_l=-1
 				  normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				  normfl(2)=djacobf(1,nfp,ifacelc,icleft)
@@ -104,9 +157,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 2.) then
 			      psi=0.5
 				  eta=gp(nfp)
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+! 				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  normfl(1)=djacobf(4,nfp,ifacelc,icleft)
 				  normfl(2)=-djacobf(2,nfp,ifacelc,icleft)
 			 end if  
@@ -114,9 +174,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 3.) then
 			      psi=gp(N-nfp+1)
 				  eta=0.5
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+! 				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				  normfl(2)=djacobf(1,nfp,ifacelc,icleft)
 			 end if 
@@ -124,9 +191,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 4.) then
 			      psi=-0.5
 				  eta=gp(N-nfp+1)
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+! 				  MHD
+!				  do k=1,8
+!				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			      end do
+
+!  				  Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				  end do
 				  sign_l=-1
 				  normfl(1)=djacobf(4,nfp,ifacelc,icleft)
 				  normfl(2)=-djacobf(2,nfp,ifacelc,icleft)
@@ -136,9 +210,15 @@ SUBROUTINE BCflux
 			
 			 CALL getrusanovflux(Ql,Qr,Fnl,Fnr,normfl,sign_l,sign_r)
 			 
-			 do k=1,8
-			    f_edge(k,nfp,ifacelc,icleft)=Fnl(k)
-		     end do
+!			 MHD
+!			 do k=1,8
+!			    f_edge(k,nfp,ifacelc,icleft)=Fnl(k)
+!		     end do
+
+!			 Euler
+			 do k=1,4
+				f_edge(k,nfp,ifacelc,icleft)=Fnl(k)
+			 end do
 			 
 			 end do
 			 end do
@@ -159,9 +239,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 1.) then
 			          psi=gp(nfp)
 				      eta=-0.5
-				      do k=1,8
-				         Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			          end do
+
+! 				      MHD
+!				      do k=1,8
+!				         Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			          end do
+
+!  				      Euler
+					  do k=1,4
+						Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+					 end do
 				     sign_l=-1
 				     normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				     normfl(2)=djacobf(1,nfp,ifacelc,icleft)
@@ -170,9 +257,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 2.) then
 			      psi=0.5
 				  eta=gp(nfp)
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				 
+! 				      MHD
+!				      do k=1,8
+!				         Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			          end do
+
+!  				      Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				 end do
 				  normfl(1)=djacobf(4,nfp,ifacelc,icleft)
 				  normfl(2)=-djacobf(2,nfp,ifacelc,icleft)
 			 end if  
@@ -180,9 +274,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 3.) then
 			      psi=gp(N-nfp+1)
 				  eta=0.5
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+! 				      MHD
+!				      do k=1,8
+!				         Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			          end do
+
+!  				      Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				 end do
 				  normfl(1)=-djacobf(3,nfp,ifacelc,icleft)
 				  normfl(2)=djacobf(1,nfp,ifacelc,icleft)
 			 end if 
@@ -190,9 +291,16 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 4.) then
 			      psi=-0.5
 				  eta=gp(N-nfp+1)
-				  do k=1,8
-				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
-			      end do
+				  
+! 				      MHD
+!				      do k=1,8
+!				         Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+!			          end do
+
+!  				      Euler
+				  do k=1,4
+					Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
+				 end do
 				  sign_l=-1
 				  normfl(1)=djacobf(4,nfp,ifacelc,icleft)
 				  normfl(2)=-djacobf(2,nfp,ifacelc,icleft)
@@ -222,7 +330,15 @@ SUBROUTINE BCflux
 		  if (ifacerc.eq.1) then
                  psi=gp(nfpr)
                  eta=-0.5
-                 do k=1,8
+
+! 				 MHD
+!                do k=1,8
+!                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
+!                            uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
+!                  end do
+
+!  				 Euler
+				  do k=1,4
                     Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
                             uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
                   end do
@@ -232,8 +348,16 @@ SUBROUTINE BCflux
           if (ifacerc.eq.2) then
                  psi=0.5
                  eta=gp(nfpr)
-                 do k=1,8
-                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright),&
+                 
+! 				 MHD
+!                do k=1,8
+!                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
+!                            uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
+!                  end do
+
+!  				 Euler
+				  do k=1,4
+                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
                             uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
                   end do
 				  sign_r=-1
@@ -243,8 +367,16 @@ SUBROUTINE BCflux
           if (ifacerc.eq.3) then
                  psi=gp(N-nfpr+1)
                  eta=0.5
-                 do k=1,8
-                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright),&
+                 
+! 				 MHD
+!                do k=1,8
+!                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
+!                            uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
+!                  end do
+
+!  				 Euler
+				  do k=1,4
+                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
                             uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
                   end do
 				  sign_r=-1
@@ -254,8 +386,16 @@ SUBROUTINE BCflux
           if (ifacerc.eq.4) then
                  psi=-0.5
                  eta=gp(N-nfpr+1)
-                 do k=1,8
-                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright),&
+                 
+! 				 MHD
+!                do k=1,8
+!                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
+!                            uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
+!                  end do
+
+!  				 Euler
+				  do k=1,4
+                    Qr(k)=calc_Q(u0(k,icright),ux(k,icright),uy(k,icright), &
                             uxx(k,icright),uxy(k,icright),uyy(k,icright),psi,eta)
                   end do
           end if
@@ -263,8 +403,14 @@ SUBROUTINE BCflux
 
 		  CALL getrusanovflux(Ql,Qr,Fnl,Fnr,normfl,sign_l,sign_r)
 
-		  
-		  do i=1,8
+! 		  MHD
+!		  do i=1,8
+!			f_edge(i,nfp,ifacelc,icleft)=Fnl(i)
+!			f_edge(i,nfpr,ifacerc,icright)=Fnr(i)
+!		end do
+
+!		  Euler
+		  do i=1,4
 		      f_edge(i,nfp,ifacelc,icleft)=Fnl(i)
 			  f_edge(i,nfpr,ifacerc,icright)=Fnr(i)
 		  end do
