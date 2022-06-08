@@ -261,7 +261,7 @@ SUBROUTINE initialize
 			  Qvi(1) = rho
 			  Qvi(2) = rho*u
 			  Qvi(3) = rho*v
-			  Qvi(5) = pr/(gama-1) + 0.5d0*rho*NORM_U
+			  Qvi(4) = pr/(gama-1) + 0.5d0*rho*NORM_U
 			  Qv(1:4,igp,jgp,ic)=Qvi(1:4)
 			  end do
 		  end do

@@ -44,7 +44,6 @@ plotQ(:,:)=0
 gnode_cellcount(:)=0
 
 do icell=1,NCELL
-
    do k=1,4
        IC2V(k)=IVCELL(icell,k)
    end do
@@ -122,14 +121,14 @@ do iface=1,NFACES
 			
 !	  		MHD
 !	  		do i=1,8
-!    		      plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
-!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
-!      		end do
+!				Qleft(i)=Qleft(i)+calc_Q(u0(i,icleft),ux(i,icleft),uy(i,icleft), &
+!						uxx(i,icleft),uxy(i,icleft),uyy(i,icleft),psi,eta)
+!			end do
 
-!			  Euler	  
+!			  Euler
 			do i=1,4
-				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
-									  uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+				Qleft(i)=Qleft(i)+calc_Q(u0(i,icleft),ux(i,icleft),uy(i,icleft), &
+						 uxx(i,icleft),uxy(i,icleft),uyy(i,icleft),psi,eta)
 			end do
 
 			do k=1,4
@@ -164,20 +163,20 @@ do iface=1,NFACES
 				do js=1,N
 !	  		MHD
 !	  		do i=1,8
-!    		      plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
-!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
-!      		end do
+!				Qright(i) = Qright(i) +calc_Q(u0(i,icright),ux(i,icright),uy(i,icright), &
+!				uxx(i,icright),uxy(i,icright),uyy(i,icright),psi,eta)
+!			end do
 
-!			  Euler	  
-			do i=1,4
-				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
-									  uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
-			end do
+!			  Euler
+				do i=1,4
+					Qright(i) = Qright(i) +calc_Q(u0(i,icright),ux(i,icright),uy(i,icright), &
+                            uxx(i,icright),uxy(i,icright),uyy(i,icright),psi,eta)
+				end do
 				end do
 				end do
 				
 			else
-			Qright=Qleft
+			Qright(:)=Qleft(:)
 			end if
 			
 			plotQ(:,gnid)=Qleft(:)+Qright(:)
@@ -203,14 +202,14 @@ do icell=1,NCELL
 			
 !	  		MHD
 !	  		do i=1,8
-!    		      plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell),&
-!                               uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
-!      		end do
+!				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
+!								uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+!			end do
 
 !			  Euler	  
 			do i=1,4
 				plotQ(i,gnid)=plotQ(i,gnid)+calc_Q(u0(i,icell),ux(i,icell),uy(i,icell), &
-									  uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
+								uxx(i,icell),uxy(i,icell),uyy(i,icell),psi,eta)
 			end do
 			gnode_cellcount(gnid)=1
 			g_index_node(inode+1,jnode+1)=gnid
