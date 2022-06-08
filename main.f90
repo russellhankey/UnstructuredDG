@@ -35,10 +35,10 @@ PROGRAM main
 	write(9001,*) "Even though this file is intended to prevent a residnorm NAN,"
 	write(9001,*) "it can still be used to record other useful measurements as well."
 	write(9001,*)
-	write(9001,*) "       iter                   dt                         t"
+	write(9001,*) "       iter      residnorm             dt                         t"
 
 ! specify final time and initialize local variables
-	  ft=60
+	  ft=600
 	  t=0
 	  kcount=0
 	  checkstat = 0
@@ -83,7 +83,7 @@ PROGRAM main
 		t=t+dt
 		!kcount=kcount+1
 
-		write(9001,*)iter,dt,t
+		write(9001,*)iter,residnorm,dt,t
 
 !		MHD
 ! save previous iteration's result
@@ -196,6 +196,7 @@ PROGRAM main
  
  
  ! Runge-Kutta step 1
+		  RK = 1
 		 !CALL Detector
 		 CALL calright
 		 do ic=1,NCELL
@@ -208,10 +209,10 @@ PROGRAM main
 			  uyy(k,ic)=w1yy(k,ic)+dt*rightyy(k,ic)
 			end do
 		 end do
-			
  
  
  ! Runge-Kutta step 2
+		 RK = 2
 		 ! CALL Detector  
 		  CALL calright
  
@@ -240,6 +241,7 @@ PROGRAM main
  
  
  ! Runge-Kutta step 3
+		 RK = 3
 	 !	CALL Detector 
 		 CALL calright
 		  do ic=1,NCELL

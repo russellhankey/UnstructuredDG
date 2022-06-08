@@ -22,7 +22,7 @@
 
       DOUBLE PRECISION :: psi,eta,calc_Q
 	  
-	  
+!	  open(120,file='fedge.out')
 	  
       DO NF=1,NINTER
 	     
@@ -233,6 +233,9 @@
 		  do i=1,4
 			f_edge(i,nfp,ifacelc,icleft)=Fnl(i)
 			f_edge(i,nfpr,ifacerc,icright)=Fnr(i)
+!			write(120,*)
+!			write(120,*) 'iter',iter,'RK',RK,'ic',ic,'gp',gp(nfp),'gp(nfpr)',gp(nfpr)
+!			write(120,*) 'Fnl',Fnl(i),'Fnr',Fnr(i)
 		end do
 		  		  
 		  END DO
@@ -277,7 +280,7 @@
 		  double precision,dimension(4,3,3), intent(out) :: FC,GC
 		  double precision,dimension(4,3,3) :: Q
 		  double precision :: Fi(4),Gi(4)
-		  
+		  open(6666,file='FG.out')
 		  do igp=1,3
 		     do jgp=1,3
 			     psi=gp(igp)
@@ -291,6 +294,24 @@
 !				 Euler
 			   	do k=1,4 !Q gauss points volume integral
 					Q(k,igp,jgp)=calc_Q(u0(k,ic),ux(k,ic),uy(k,ic),uxx(k,ic),uxy(k,ic),uyy(k,ic),psi,eta)
+					write(6666,*)
+					write(6666,*)'iter',iter,'RK',RK
+					write(6666,*)'k=',k,'ic=',ic,'igp=',igp,'jgp=',jgp
+					write(6666,*)'u0(k,ic)',u0(k,ic)
+					write(6666,*)'ux(k,ic)',ux(k,ic)
+					write(6666,*)'uy(k,ic)',uy(k,ic)
+					write(6666,*)'uxx(k,ic)',uxx(k,ic)
+					write(6666,*)'uxy(k,ic)',uxy(k,ic)
+					write(6666,*)'uyy(k,ic)',uyy(k,ic)
+					write(6666,*)
+!					write(6666,*)'rho:','psi=',psi,'eta=',eta
+!					write(6666,*)Q(1,igp,jgp)
+!					write(6666,*)'rhou:','psi=',psi,'eta=',eta
+!					write(6666,*)Q(2,igp,jgp)
+!					write(6666,*)'rhov:','psi=',psi,'eta=',eta
+!					write(6666,*)Q(3,igp,jgp)
+!					write(6666,*)'rhoE:','psi=',psi,'eta=',eta
+!					write(6666,*)Q(4,igp,jgp)
 				end do
 			   
 !				 MHD
@@ -341,6 +362,10 @@
 			   Gi(2)=rho*u*v
 			   Gi(3)=rho*v*v+p
 			   Gi(4)=v*(rhoE+p)
+			   
+!			   write(6666,*)
+!			   write(6666,*)"Fi:",Fi(1),Fi(2),Fi(3),Fi(4)
+!			   write(6666,*)"Gi:",Gi(1),Gi(2),Gi(3),Gi(4)
 			   
 			   s11=djacobv(4,igp,jgp,ic)
 			   s12=-djacobv(2,igp,jgp,ic)

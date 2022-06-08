@@ -252,8 +252,8 @@ SUBROUTINE initialize
 				  
 			  y = xx(2)
 			  rho = gama**2
-			  u = 0.01!-sin(y)
-			  v = 0!sin(x)
+			  u = 1
+			  v = 0
 			  pr = gama
 
 			  NORM_U = u**2+v**2

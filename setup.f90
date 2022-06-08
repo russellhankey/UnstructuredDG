@@ -44,7 +44,7 @@ MODULE setup
 
       double precision :: r13,r23,haf,r12,r06,dx,dy
 	  double precision,parameter :: tolCYC=1d-5
-      integer :: nx,ny,np,ndof
+      integer :: nx,ny,np,ndof,RK
       integer :: kcount,MAXITER
       parameter(r13=1./3.,r23=2./3.)
       parameter(r12=1./12.,r06=1./6.,haf=0.5)

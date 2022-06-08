@@ -23,6 +23,8 @@ SUBROUTINE getrusanovflux(Ql,Qr,Fnl,Fnr,normfl,sign_l,sign_r)
 	  double precision,dimension(4),intent(in) :: Ql,Qr
 	  double precision,dimension(4),intent(out) :: Fnl,Fnr
 	  
+open(142,file='rusflx.out')
+
 !	  MHD
 !	  magn=sqrt(normfl(1)**2+normfl(2)**2)
 !	  unit_x=normfl(1)/magn*sign_l
@@ -86,11 +88,33 @@ SUBROUTINE getrusanovflux(Ql,Qr,Fnl,Fnr,normfl,sign_l,sign_r)
 
 	  magn=sqrt(normfl(1)*normfl(1)+normfl(2)*normfl(2))
 	  c_a=sqrt(gama*(pl+pr)/(rhol+rhor))
+!	  write(142,*)
+!	  write(142,*) 'c_a:',c_a
+!	  write(142,*) 'gama:',gama
+!	  write(142,*) 'pl:',pl
+!	  write(142,*) 'pr:',pr
+!	  write(142,*) 'rhol:',rhol
+!	  write(142,*) 'rhor:',rhor
+!	  write(142,*) 'gama*(pl+pr)/(rhol+rhor):',gama*(pl+pr)/(rhol+rhor)
+
 	  eigv=0.5*abs(Vn_l+Vn_r)+c_a*magn
+!	  write(142,*)
+!	  write(142,*) 'eigv:',eigv
+!	  write(142,*) 'Vn_l:',Vn_l
+!	  write(142,*) 'Vn_r:',Vn_r
+!	  write(142,*) 'c_a:',c_a
+!	  write(142,*) 'magn:',magn
 	  
 	  do k=1,4
 	      Fnl(k)=0.5*sign_l*(Fnl(k)+Fnr(k)-eigv*(Qr(k)-Ql(k)))
 		  Fnr(k)=sign_l*sign_r*Fnl(k)
+!		  write(142,*)
+!		  write(142,*) 'iter',iter,'RK',RK,'k',k
+!		  write(142,*) 'Ql',Ql(k)
+!		  write(142,*) 'Qr',Qr(k)
+!		  write(142,*) 'Fnl',Fnl(k)
+!		  write(142,*) 'Fnr',Fnr(k)
+!		  write(142,*) 'eigv',eigv
 	  end do
 	  
 !	  MHD
