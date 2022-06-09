@@ -280,7 +280,7 @@
 		  double precision,dimension(4,3,3), intent(out) :: FC,GC
 		  double precision,dimension(4,3,3) :: Q
 		  double precision :: Fi(4),Gi(4)
-		  open(6666,file='FG.out')
+!		  open(6666,file='FG.out')
 		  do igp=1,3
 		     do jgp=1,3
 			     psi=gp(igp)
@@ -294,16 +294,16 @@
 !				 Euler
 			   	do k=1,4 !Q gauss points volume integral
 					Q(k,igp,jgp)=calc_Q(u0(k,ic),ux(k,ic),uy(k,ic),uxx(k,ic),uxy(k,ic),uyy(k,ic),psi,eta)
-					write(6666,*)
-					write(6666,*)'iter',iter,'RK',RK
-					write(6666,*)'k=',k,'ic=',ic,'igp=',igp,'jgp=',jgp
-					write(6666,*)'u0(k,ic)',u0(k,ic)
-					write(6666,*)'ux(k,ic)',ux(k,ic)
-					write(6666,*)'uy(k,ic)',uy(k,ic)
-					write(6666,*)'uxx(k,ic)',uxx(k,ic)
-					write(6666,*)'uxy(k,ic)',uxy(k,ic)
-					write(6666,*)'uyy(k,ic)',uyy(k,ic)
-					write(6666,*)
+!					write(6666,*)
+!					write(6666,*)'iter',iter,'RK',RK
+!					write(6666,*)'k=',k,'ic=',ic,'igp=',igp,'jgp=',jgp
+!					write(6666,*)'u0(k,ic)',u0(k,ic)
+!					write(6666,*)'ux(k,ic)',ux(k,ic)
+!					write(6666,*)'uy(k,ic)',uy(k,ic)
+!					write(6666,*)'uxx(k,ic)',uxx(k,ic)
+!					write(6666,*)'uxy(k,ic)',uxy(k,ic)
+!					write(6666,*)'uyy(k,ic)',uyy(k,ic)
+!					write(6666,*)
 !					write(6666,*)'rho:','psi=',psi,'eta=',eta
 !					write(6666,*)Q(1,igp,jgp)
 !					write(6666,*)'rhou:','psi=',psi,'eta=',eta

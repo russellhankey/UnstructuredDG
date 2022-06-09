@@ -23,7 +23,7 @@ SUBROUTINE getrusanovflux(Ql,Qr,Fnl,Fnr,normfl,sign_l,sign_r)
 	  double precision,dimension(4),intent(in) :: Ql,Qr
 	  double precision,dimension(4),intent(out) :: Fnl,Fnr
 	  
-open(142,file='rusflx.out')
+!open(142,file='rusflx.out')
 
 !	  MHD
 !	  magn=sqrt(normfl(1)**2+normfl(2)**2)

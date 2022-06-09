@@ -49,6 +49,6 @@ MODULE setup
       parameter(r13=1./3.,r23=2./3.)
       parameter(r12=1./12.,r06=1./6.,haf=0.5)
       parameter(np=3)
-      parameter(gama=5.d0/3)
+      parameter(gama=1.4)
       END MODULE setup
 

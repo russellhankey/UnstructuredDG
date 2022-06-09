@@ -300,6 +300,7 @@ PROGRAM main
 !		end if
 
 ! stop the program if something goes wrong
+
 		if(abs(residnorm) .le. 1.e-16) then!checkstat=1
 			write(*,*)"|Residnorm| less than 1E-16    (ie: Nothing seems to be changing)"
 			exit
@@ -311,6 +312,7 @@ PROGRAM main
 			write(*,*)"Residnorm:",residnorm
 			exit
 		end if
+		
 
 ! calculate the time since the program was started
 		call CPU_TIME(timestop)

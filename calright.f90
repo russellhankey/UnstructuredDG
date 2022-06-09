@@ -24,8 +24,8 @@ SUBROUTINE calright
       DOUBLE PRECISION,DIMENSION(0:5,4) :: rint
       DOUBLE PRECISION,DIMENSION(0:5,4) :: fluxr,fluxl,fluxu,fluxb,flux
 
-open(69,file='calright.out')
-open(70,file='rightflx.out')
+!open(69,file='calright.out')
+!open(70,file='rightflx.out')
 	  
 	  !w(1)=5.0/18.
 	  !w(2)=8./18.
@@ -163,11 +163,11 @@ open(70,file='rightflx.out')
 		    fluxr(4,k)=0.5*Rint_edge(f_edge(k,1,2,ic)*gp(1),f_edge(k,2,2,ic)*gp(2),f_edge(k,3,2,ic)*gp(3))
 			
 			fluxr(5,k)=Rint_edge(f_edge(k,1,2,ic)*w_1,f_edge(k,2,2,ic)*w0,f_edge(k,3,2,ic)*w1)
-			write(70,*)
-			write(70,*) 'iter',iter,'RK',RK,'k',k,'ic',ic
-			write(70,*) 'f_edge(1)',f_edge(k,1,2,ic)
-			write(70,*) 'f_edge(2)',f_edge(k,2,2,ic)
-			write(70,*) 'f_edge(3)',f_edge(k,3,2,ic)
+!			write(70,*)
+!			write(70,*) 'iter',iter,'RK',RK,'k',k,'ic',ic
+!			write(70,*) 'f_edge(1)',f_edge(k,1,2,ic)
+!			write(70,*) 'f_edge(2)',f_edge(k,2,2,ic)
+!			write(70,*) 'f_edge(3)',f_edge(k,3,2,ic)
 
 !			write(70,*)
 !			write(70,*) 'iter:',iter,'RK',RK,'k',k
@@ -254,14 +254,14 @@ open(70,file='rightflx.out')
 			rightxy(k,ic)=(rint(4,k)-flux(4,k))/axy
 			rightyy(k,ic)=(rint(5,k)-flux(5,k))/ayy
 
-			write(69,*)
-			write(69,*) 'iter:',iter,'RK:',RK,'ic:',ic,'k:',k
-			write(69,*) 'right0',right0(k,ic)
-			write(69,*) 'rightx',rightx(k,ic)
-			write(69,*) 'righty',righty(k,ic)
-			write(69,*) 'rightxx',rightxx(k,ic)
-			write(69,*) 'rightxy',rightxy(k,ic)
-			write(69,*) 'rightyy',rightyy(k,ic)
+!			write(69,*)
+!			write(69,*) 'iter:',iter,'RK:',RK,'ic:',ic,'k:',k
+!			write(69,*) 'right0',right0(k,ic)
+!			write(69,*) 'rightx',rightx(k,ic)
+!			write(69,*) 'righty',righty(k,ic)
+!			write(69,*) 'rightxx',rightxx(k,ic)
+!			write(69,*) 'rightxy',rightxy(k,ic)
+!			write(69,*) 'rightyy',rightyy(k,ic)
 		end do
 		end do
 		contains
