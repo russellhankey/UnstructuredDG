@@ -1,0 +1,12 @@
+        1        21              2        15     INLE
+        2        23              1         2     INLE
+        3         2             16         1     INLE
+        4        16              7         6     OUTL
+        5        12              6         9     OUTL
+        6         9              9        14     OUTL
+        7        15              8         7     WALL
+        8        17              4         8     WALL
+        9        22             15         4     WALL
+       10         1             11        16     WALL
+       11         7             10        11     WALL
+       12        10             14        10     WALL
