@@ -325,10 +325,10 @@ PROGRAM main
 		end if
      
 ! plot every 100 iterations
-		 if (mod(iter,100)==0) then 
+!		 if (mod(iter,100)==0) then 
             call tecplotter(NRE)
 		 !call tecplotnorefinement
-         end if
+!         end if
 		end do
 
 

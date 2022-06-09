@@ -66,7 +66,14 @@ SUBROUTINE BCflux
 			 if(ifacelc .eq. 3.) then
 			      psi=gp(N-nfp+1)
 				  eta=0.5
-				  
+!				  write(*,*) 'icleft:',icleft,'icright:',icright,'ifacelc:',ifacelc,'nfp:',nfp,'gp(N-nfp+1):',gp(N-nfp+1),'psi:',psi,'eta:',eta
+!				  write(*,*)
+!				  write(*,*) 'IVCELL(icleft):',IVCELL(icleft,:)
+!				  write(*,*) 'X:',XV(IVCELL(icleft,1)),'Y:',YV(IVCELL(icleft,1))
+!				  write(*,*) 'X:',XV(IVCELL(icleft,2)),'Y:',YV(IVCELL(icleft,2))
+!				  write(*,*) 'X:',XV(IVCELL(icleft,3)),'Y:',YV(IVCELL(icleft,3))
+!				  write(*,*) 'X:',XV(IVCELL(icleft,4)),'Y:',YV(IVCELL(icleft,4))
+
 !				  MHD
 !				  do k=1,8
 !				     Ql(k)=calc_Q(u0(k,icleft),ux(k,icleft),uy(k,icleft),uxx(k,icleft),uxy(k,icleft),uyy(k,icleft),psi,eta)
@@ -102,7 +109,7 @@ SUBROUTINE BCflux
 !			 Qr(1:8)=Ql(1:8)
 
 !			 Euler
-			 Qr(1:4)=Ql(1:4)
+			 Qr=Ql
 
 			 !Qr(1)=rinf
 			 !Qr(2)=uinf*rinf
@@ -136,7 +143,7 @@ SUBROUTINE BCflux
 
 		     sign_l=1
 			 if(ifacelc .eq. 1.) then
-			         psi=gp(nfp)
+			      psi=gp(nfp)
 				  eta=-0.5
 
 ! 				  MHD

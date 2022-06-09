@@ -201,6 +201,7 @@ SUBROUTINE CONNECTIVITY
       WRITE(*,*)'Total number of physical cells=',NCELL
       WRITE(*,*)'Total number of cells(internal+boundaries)=',NCELLTOT
 
+      
 
       DEALLOCATE(ICVFILL)
       DEALLOCATE(IDUMMY)

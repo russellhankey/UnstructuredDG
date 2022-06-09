@@ -181,7 +181,7 @@ SUBROUTINE calright
 			fluxl(3,k)=1./6.*Rint_edge(f_edge(k,1,4,ic),f_edge(k,2,4,ic),f_edge(k,3,4,ic))
 		    fluxl(4,k)=-0.5*Rint_edge(f_edge(k,1,4,ic)*gp(3),f_edge(k,2,4,ic)*gp(2),f_edge(k,3,4,ic)*gp(1))
 			
-			fluxl(5,k)=Rint_edge(f_edge(k,1,2,ic)*w_1,f_edge(k,2,2,ic)*w0,f_edge(k,3,2,ic)*w1)
+			fluxl(5,k)=Rint_edge(f_edge(k,1,4,ic)*w_1,f_edge(k,2,4,ic)*w0,f_edge(k,3,4,ic)*w1)
 		 end do
 		 
 		 do k=1,4
