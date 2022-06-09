@@ -78,12 +78,12 @@ SUBROUTINE preprocess
       END IF
       END DO
 	  
-	        WRITE(*,*)'ninlet=',NINLET
+	  WRITE(*,*)'ninlet =',NINLET
       WRITE(*,*)'noutlet=',NOUTLET
-      WRITE(*,*)'nsymm=',NSYMM
-      WRITE(*,*)'nwall=',NWALL
-      WRITE(*,*)'ncycl=',NCYCL
-      WRITE(*,*)'ninter=',NINTER
+      WRITE(*,*)'nsymm  =',NSYMM
+      WRITE(*,*)'nwall  =',NWALL
+      WRITE(*,*)'ncycl  =',NCYCL
+      WRITE(*,*)'ninter =',NINTER
 	  
 	  NPAIR = 0
     !ALLOCATE(CYC2FPAIR(NCYCL/2,2))
